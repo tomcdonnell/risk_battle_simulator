@@ -1,0 +1,33 @@
+/**************************************************************************************************\
+*
+* vim: ts=3 sw=3 et wrap co=100 go -=b
+*
+* Filename: "style.css"
+*
+* Project: Risk Battle Calculator
+*
+* Purpose: Styles
+*
+* Author: Tom McDonnell 2011-07-24.
+*
+\**************************************************************************************************/
+
+*
+{
+}
+
+table.riskBattleCalculatorForm
+{
+   width: 280px;
+   margin-bottom: 10px;
+}
+
+div.riskBattleCalculator input.button
+{
+   height: 40px;
+   width: 80px;
+   vertical-align: top;
+   margin: 5px;
+}
+
+/*******************************************END*OF*FILE********************************************/

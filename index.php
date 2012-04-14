@@ -22,12 +22,12 @@ $filenamesCss = array
 
 $filenamesJs = array
 (
-   '../library/tom/js/contrib/jquery/1.5/jquery_minified.js',
-   '../library/tom/js/contrib/utils/DomBuilder.js'          ,
-   '../library/tom/js/utils/NumToWords.js'                  ,
-   '../library/tom/js/utils/utils.js'                       ,
-   '../library/tom/js/utils/utilsValidator.js'              ,
-   'RiskBattleCalculator.js'                                ,
+   'lib_tom/js/contrib/jquery/1.5/jquery_minified.js',
+   'lib_tom/js/contrib/utils/DomBuilder.js'          ,
+   'lib_tom/js/utils/NumToWords.js'                  ,
+   'lib_tom/js/utils/utils.js'                       ,
+   'lib_tom/js/utils/utilsValidator.js'              ,
+   'RiskBattleCalculator.js'                         ,
    'index.js'
 );
 

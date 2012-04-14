@@ -13,46 +13,34 @@
 *
 \**************************************************************************************************/
 
-// Global variables. ///////////////////////////////////////////////////////////////////////////////
+// Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-$filenamesCss = array
-(
-   'style.css'
-);
-
-$filenamesJs = array
-(
-   'lib_tom/js/contrib/jquery/1.5/jquery_minified.js',
-   'lib_tom/js/contrib/utils/DomBuilder.js'          ,
-   'lib_tom/js/utils/NumToWords.js'                  ,
-   'lib_tom/js/utils/utils.js'                       ,
-   'lib_tom/js/utils/utilsValidator.js'              ,
-   'RiskBattleCalculator.js'                         ,
-   'index.js'
-);
+require_once dirname(__FILE__) . '/lib_tom/php/utils/UtilsHtml.php';
 
 // HTML code. //////////////////////////////////////////////////////////////////////////////////////
 ?>
-<!DOCTYPE html PUBLIC
- "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html>
  <head>
 <?php
- $timestamp = time();
- foreach ($filenamesCss as $filename)
- {
-?>
-  <link rel='stylesheet' type='text/css' href='<?php echo "$filename?$timestamp"; ?>'/>
-<?php
- }
-
- foreach ($filenamesJs as $filename)
- {
-?>
-  <script type='text/javascript' src='<?php echo "$filename?$timestamp"; ?>'></script>
-<?php
- }
+UtilsHtml::echoHtmlScriptAndLinkTagsForJsAndCssFiles
+(
+   array
+   (
+      'style.css'
+   ),
+   array
+   (
+      'lib_tom/js/contrib/jquery/1.5/jquery_minified.js',
+      'lib_tom/js/contrib/utils/DomBuilder.js'          ,
+      'lib_tom/js/utils/NumToWords.js'                  ,
+      'lib_tom/js/utils/utils.js'                       ,
+      'lib_tom/js/utils/utilsObject.js'                 ,
+      'lib_tom/js/utils/utilsValidator.js'              ,
+      'RiskBattleCalculator.js'                         ,
+      'index.js'
+   )
+);
 ?>
   <title>Risk Battle Calculator</title>
  </head>

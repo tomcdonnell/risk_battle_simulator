@@ -131,17 +131,19 @@ function RiskBattleCalculator()
 
       function reverseCompare(a, b) {return b - a;}
 
-      while (nAttackers >= minAttackers && nDefenders > 0)
+      while (nAttackers > minAttackers && nDefenders > 0)
       {
-         var diceRollResultsAttacker = _rollDice((nAttackers > 2)? 3: (nAttackers > 1)? 2: 1);
-         var diceRollResultsDefender = _rollDice((nDefenders > 1)? 2: 1);
+         var nRollsAttacker          = (nAttackers > 2)? 3: (nAttackers > 1)? 2: 1;
+         var nRollsDefender          = (nDefenders > 1)? 2: 1;
+         var diceRollResultsAttacker = _rollDice(nRollsAttacker);
+         var diceRollResultsDefender = _rollDice(nRollsDefender);
          var nAttackersLost          = 0;
          var nDefendersLost          = 0;
 
          diceRollResultsAttacker.sort(reverseCompare);
          diceRollResultsDefender.sort(reverseCompare);
 
-         for (var i = 0; i < diceRollResultsDefender.length; ++i)
+         for (var i = 0, len = Math.min(nRollsAttacker, nRollsDefender); i < len; ++i)
          {
             switch (diceRollResultsAttacker[i] > diceRollResultsDefender[i])
             {
@@ -236,20 +238,44 @@ function RiskBattleCalculator()
       {
          var logEntry = logEntries[i];
          var liJq     = $(LI());
-
-         for (var key in logEntry)
-         {
-            // TODO
-            // ----
-            // Write battle log as chronicle in text fitting theme.
-            // "(Attacker rolls 5,4 defender rolls 2,3)
-            //  Then Hector cast his spear at Diomedes, killing him.
-            //  His eyes rolled back as his head hit the dust."
-            liJq.append(SPAN(key + ': ' + logEntry[key]), BR());
-         }
-
+         liJq.append(_getLogEntryLongDescriptionAsSpan(logEntry));
          battleLogDivJq.append(liJq);
       }
+   }
+
+   /*
+    * TODO
+    * ----
+    * Write battle log as chronicle in text fitting theme.
+    * "(Attacker rolls 5,4 defender rolls 2,3)
+    *  Then Hector cast his spear at Diomedes, killing him.
+    *  His eyes rolled back as his head hit the dust."
+    */
+   function _getLogEntryLongDescriptionAsSpan(logEntry)
+   {
+      UTILS.validator.checkObject
+      (
+         logEntry,
+         {
+            nAttackersPre          : 'positiveInt'   ,
+            nDefendersPre          : 'positiveInt'   ,
+            diceRollResultsAttacker: 'nonEmptyArray' ,
+            diceRollResultsDefender: 'nonEmptyArray' ,
+            nAttackersLost         : 'nonNegativeInt',
+            nDefendersLost         : 'nonNegativeInt'
+         }
+      );
+
+      var nAttackersPost = logEntry.nAttackersPre - logEntry.nAttackersLost;
+      var nDefendersPost = logEntry.nDefendersPre - logEntry.nDefendersLost;
+
+      return PRE
+      (
+         "Attacker's dice    : " + logEntry.diceRollResultsAttacker.join(', ')          + '\n'  +
+         "Defender's dice    : " + logEntry.diceRollResultsDefender.join(', ')          + '\n'  +
+         'Attackers remaining: ' + nAttackersPost + ' (lost ' + logEntry.nAttackersLost + ')\n' +
+         'Defenders remaining: ' + nDefendersPost + ' (lost ' + logEntry.nDefendersLost + ')\n'
+      );
    }
 
    /*

@@ -6,7 +6,7 @@
 *
 * Project: Risk Battle Calculator
 *
-* Purpose: Start JavaScripts.
+* Purpose: Simulate a dice roll battle in the board game Risk.
 *
 * Author: Tom McDonnell 2011-07-25.
 *

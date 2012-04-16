@@ -31,7 +31,7 @@ function RiskBattleCalculator()
    /*
     *
     */
-   function _onClickClearForm(e)
+   function _onClickClearForm(ev)
    {
       try
       {
@@ -39,9 +39,12 @@ function RiskBattleCalculator()
          UTILS.checkArgs(f, arguments, [Object]);
 
          var selectors = _inputs.selectors;
+
          $(selectors.nAttackers  ).attr('selectedIndex', 0);
          $(selectors.nDefenders  ).attr('selectedIndex', 0);
          $(selectors.minAttackers).attr('selectedIndex', 0);
+         $(_domElements.ols.battleLog     ).html('');
+         $(_domElements.divs.battleSummary).html('');
       }
       catch (e)
       {
@@ -52,16 +55,39 @@ function RiskBattleCalculator()
    /*
     *
     */
-   function _onClickAttack(e)
+   function _onChangeNAttackers(ev)
+   {
+      try
+      {
+         var f = 'RiskBattleCalculator._onChangeNAttackers()';
+         UTILS.checkArgs(f, arguments, [Object]);
+
+         var nAttackers = $(_inputs.selectors.nAttackers).val();
+         var options    = _inputs.selectors.minAttackers.options;
+
+         for (var i = 0; i < _maxArmies; ++i)
+         {
+             options[i].disabled = (i >= nAttackers);
+         }
+      }
+      catch (e)
+      {
+         UTILS.printExceptionToConsole(f, e);
+      }
+   }
+
+   /*
+    *
+    */
+   function _onClickAttack(ev)
    {
       try
       {
          var f = 'RiskBattleCalculator._onClickAttack()';
          UTILS.checkArgs(f, arguments, [Object]);
 
-         var o             = _getSelectedValuesAsObject();
-         _state.logEntries = _simulateAttack(o.nAttackers, o.nDefenders, o.minAttackers);
-
+         var o = _getSelectedValuesAsObject();
+         _simulateAttack(o.nAttackers, o.nDefenders, o.minAttackers);
          _printAttackSimulationLogToPage();
       }
       catch (e)
@@ -73,7 +99,7 @@ function RiskBattleCalculator()
    /*
     *
     */
-   function _onClickAnalyse(e)
+   function _onClickAnalyse(ev)
    {
       try
       {
@@ -120,17 +146,21 @@ function RiskBattleCalculator()
    }
 
    /*
-    *
+    * Simulate a battle and write the results to the _logEntries array.
     */
    function _simulateAttack(nAttackers, nDefenders, minAttackers)
    {
       var f = 'RiskBattleCalculator._simulateAttack()';
       UTILS.checkArgs(f, arguments, ['positiveInt', 'positiveInt', 'nonNegativeInt']);
 
-      var logEntries = [];
+      _logEntries = [];
 
       function reverseCompare(a, b) {return b - a;}
 
+      // Note Regarding MinAttackers
+      // ---------------------------
+      // minAttackers is the number of armies the attacking general wishes to retreat
+      // with in a failed attack.  Hence if minAttackers remain, it is time to retreat.
       while (nAttackers > minAttackers && nDefenders > 0)
       {
          var nRollsAttacker          = (nAttackers > 2)? 3: (nAttackers > 1)? 2: 1;
@@ -152,7 +182,7 @@ function RiskBattleCalculator()
             }
          }
 
-         logEntries.push
+         _logEntries.push
          (
             {
                nAttackersPre          : nAttackers             ,
@@ -167,8 +197,6 @@ function RiskBattleCalculator()
          nAttackers -= nAttackersLost;
          nDefenders -= nDefendersLost;
       }
-
-      return logEntries;
    }
 
    /*
@@ -192,54 +220,27 @@ function RiskBattleCalculator()
    /*
     *
     */
-   function _printAttackSimulationLogToConsole()
-   {
-      var f = 'RiskBattleCalculator._printAttackSimulationToConsole()';
-      UTILS.checkArgs(f, arguments, []);
-
-      var logEntries = _state.logEntries;
-
-      for (var i = 0; i < logEntries.length; ++i)
-      {
-         var logEntry = logEntries[i];
-
-         console.group();
-
-         for (var key in logEntry)
-         {
-            console.debug(key + ': ' + logEntry[key]);
-         }
-
-         console.groupEnd();
-      }
-   }
-
-   /*
-    *
-    */
    function _printAttackSimulationLogToPage()
    {
       var f = 'RiskBattleCalculator._printAttackSimulationToPage()';
       UTILS.checkArgs(f, arguments, []);
 
-      if (_state.logEntries === null)
+      if (_logEntries === null)
       {
          throw new Exception('Battle log is null.');
       }
 
-      var divs           = _domElements.divs;
-      var battleLogDivJq = $(divs.battleLog);
-      var logEntries     = _state.logEntries;
+      var battleLogOlJq = $(_domElements.ols.battleLog);
 
-      $(divs.simulationSummary).text(_getSimulationSummaryString());
-      $(divs.battleLog        ).html(''                           );
+      $(_domElements.divs.battleSummary).text(_getSimulationSummaryString());
+      $(_domElements.ols.battleLog     ).html(''                           );
 
-      for (var i = 0; i < logEntries.length; ++i)
+      for (var i = 0; i < _logEntries.length; ++i)
       {
-         var logEntry = logEntries[i];
+         var logEntry = _logEntries[i];
          var liJq     = $(LI());
          liJq.append(_getLogEntryLongDescriptionAsSpan(logEntry));
-         battleLogDivJq.append(liJq);
+         battleLogOlJq.append(liJq);
       }
    }
 
@@ -286,16 +287,15 @@ function RiskBattleCalculator()
       var f = 'RiskBattleCalculator._getSimulationSummaryString()';
       UTILS.checkArgs(f, arguments, []);
 
-      if (_state.logEntries === null)
+      if (_logEntries === null)
       {
          throw new Exception('Battle log is null.');
       }
 
       var numToWords       = new NumToWords();
-      var logEntries       = _state.logEntries;
-      var firstLogEntry    = logEntries[0                    ];
-      var finalLogEntry    = logEntries[logEntries.length - 1];
-      var nRounds          = logEntries.length;
+      var firstLogEntry    = _logEntries[0                     ];
+      var finalLogEntry    = _logEntries[_logEntries.length - 1];
+      var nRounds          = _logEntries.length;
       var finalNAttackers  = finalLogEntry.nAttackersPre - finalLogEntry.nAttackersLost;
       var finalNDefenders  = finalLogEntry.nDefendersPre - finalLogEntry.nDefendersLost;
       var boolAttackerWins = (finalNDefenders == 0);
@@ -343,24 +343,25 @@ function RiskBattleCalculator()
 
       _fillSelectors();
 
-      var divs    = _domElements.divs;
-      var tables  = _domElements.tables;
-      var buttons = _inputs.buttons;
+      var divs      = _domElements.divs;
+      var buttons   = _inputs.buttons;
+      var selectors = _inputs.selectors;
 
       $(_domElements.divs.main).append
       (
-         tables.form           ,
-         buttons.analyse       ,
-         buttons.attack        ,
-         buttons.clearForm     ,
-         BR()                  ,
-         divs.simulationSummary,
-         divs.battleLog
+         _domElements.tables.form,
+         divs.battleSummary      ,
+         DIV({'class': 'battleLog'}, _domElements.ols.battleLog)
       );
 
       $(buttons.analyse  ).click(_onClickAnalyse  );
       $(buttons.attack   ).click(_onClickAttack   );
       $(buttons.clearForm).click(_onClickClearForm);
+
+      $(selectors.nAttackers).change(_onChangeNAttackers);
+      $(selectors.nAttackers).change();
+
+      buttons.analyse.disabled = true;
    }
 
    /*
@@ -376,11 +377,12 @@ function RiskBattleCalculator()
       var nDefendersSelectorJq   = $(selectors.nDefenders  );
       var minAttackersSelectorJq = $(selectors.minAttackers);
 
-      for (var i = 1; i <= 100; ++i)
+      for (var i = 1; i <= _maxArmies; ++i)
       {
-         nAttackersSelectorJq.append(OPTION(String(i)));
-         nDefendersSelectorJq.append(OPTION(String(i)));
-         minAttackersSelectorJq.append(OPTION(String(i - 1)));
+         var attrs = (i == 50)? {selected: 'selected'}: {};
+         nAttackersSelectorJq.append(OPTION(attrs, String(i)));
+         nDefendersSelectorJq.append(OPTION(attrs, String(i)));
+         minAttackersSelectorJq.append(OPTION({value: i - 1}, (i == 1)? 'N/A': String(i - 1)));
       }
    }
 
@@ -403,13 +405,19 @@ function RiskBattleCalculator()
       }
    };
 
-   var _domElements =
+   var _maxArmies          = 100;
+   var _logEntries         = null;
+   var _stopLossLimitTitle = 'Retreat when this number of attacking armies remain';
+   var _domElements        =
    {
       divs:
       {
-         main             : DIV({'class': 'riskBattleCalculator'}),
-         simulationSummary: DIV({'class': 'simulationSummary'   }),
-         battleLog        : OL({'class': 'battleLog'           })
+         main         : DIV({'class': 'riskBattleCalculator'}),
+         battleSummary: DIV({'class': 'battleSummary'       })
+      },
+      ols:
+      {
+         battleLog: OL({'class': 'battleLog'})
       },
       tables:
       {
@@ -420,22 +428,24 @@ function RiskBattleCalculator()
                {'class': 'riskBattleCalculatorForm'},
                TBODY
                (
-                  TR(TH('Attacking Armies:'), TD(_inputs.selectors.nAttackers)),
-                  TR(TH('Defending Armies:'), TD(_inputs.selectors.nDefenders)),
+                  TR(TH({colspan: 3}, H1('Risk Battle Calculator')                        )),
+                  TR(TH({colspan: 2}, 'Attacking Armies'), TD(_inputs.selectors.nAttackers)),
+                  TR(TH({colspan: 2}, 'Defending Armies'), TD(_inputs.selectors.nDefenders)),
                   TR
                   (
-                     TH('Attack until fewer than attacking armies remain'),
-                     TD(_inputs.selectors.minAttackers)
+                     TH({title: _stopLossLimitTitle, colspan: 2}, 'Stop loss limit' ),
+                     TD({title: _stopLossLimitTitle}, _inputs.selectors.minAttackers)
+                  ),
+                  TR
+                  (
+                     TD(_inputs.buttons.analyse  ),
+                     TD(_inputs.buttons.attack   ),
+                     TD(_inputs.buttons.clearForm)
                   )
                )
             )
          )
       }
-   };
-
-   var _state =
-   {
-      logEntries: null
    };
 
    // Initialisation code. //////////////////////////////////////////////////////////////////////

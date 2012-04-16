@@ -14,20 +14,72 @@
 
 *
 {
+   padding: 0;
+   margin: 0;
 }
 
-table.riskBattleCalculatorForm
+div.riskBattleCalculator
 {
-   width: 280px;
-   margin-bottom: 10px;
+   border: 1px solid #000;
+   width: 300px;
 }
 
-div.riskBattleCalculator input.button
+h1
+{
+   text-align: center;
+}
+
+table
+{
+   margin-bottom: 10px;
+   text-align: left;
+}
+
+td, th
+{
+   width: 33%;
+}
+
+td
+{
+   text-align: right;
+}
+
+th
+{
+   text-align: left;
+}
+
+input, select
+{
+   width: 100%;
+}
+
+input
 {
    height: 40px;
-   width: 80px;
    vertical-align: top;
-   margin: 5px;
+}
+
+ol
+{
+   margin-left: 37px;
+}
+
+li
+{
+   margin-top: 10px;
+}
+
+div.battleSummary
+{
+   height: 80px;
+}
+
+div.battleLog
+{
+   height: 300px;
+   overflow: auto;
 }
 
 /*******************************************END*OF*FILE********************************************/

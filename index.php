@@ -44,9 +44,7 @@ UtilsHtml::echoHtmlScriptAndLinkTagsForJsAndCssFiles
 ?>
   <title>Risk Battle Calculator</title>
  </head>
- <body>
-  <h1>Risk Battle Calculator</h1>
- </body>
+ <body></body>
 </html>
 <?php
 /*******************************************END*OF*FILE********************************************/

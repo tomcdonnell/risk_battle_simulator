@@ -40,8 +40,8 @@ function RiskBattleSimulator()
 
          var selectors = _inputs.selectors;
 
-         $(selectors.nAttackers  ).attr('selectedIndex', 0);
-         $(selectors.nDefenders  ).attr('selectedIndex', 0);
+         $(selectors.nAttackers  ).attr('selectedIndex', _nArmiesDefault - 1);
+         $(selectors.nDefenders  ).attr('selectedIndex', _nArmiesDefault - 1);
          $(selectors.minAttackers).attr('selectedIndex', 0);
          $(_domElements.ols.battleLog     ).html('');
          $(_domElements.divs.battleSummary).html('');
@@ -65,7 +65,7 @@ function RiskBattleSimulator()
          var nAttackers = $(_inputs.selectors.nAttackers).val();
          var options    = _inputs.selectors.minAttackers.options;
 
-         for (var i = 0; i < _maxArmies; ++i)
+         for (var i = 0; i < _nArmiesMax; ++i)
          {
              options[i].disabled = (i >= nAttackers);
          }
@@ -377,9 +377,9 @@ function RiskBattleSimulator()
       var nDefendersSelectorJq   = $(selectors.nDefenders  );
       var minAttackersSelectorJq = $(selectors.minAttackers);
 
-      for (var i = 1; i <= _maxArmies; ++i)
+      for (var i = 1; i <= _nArmiesMax; ++i)
       {
-         var attrs = (i == 50)? {selected: 'selected'}: {};
+         var attrs = (i == _nArmiesDefault)? {selected: 'selected'}: {};
          nAttackersSelectorJq.append(OPTION(attrs, String(i)));
          nDefendersSelectorJq.append(OPTION(attrs, String(i)));
          minAttackersSelectorJq.append(OPTION({value: i - 1}, (i == 1)? 'N/A': String(i - 1)));
@@ -405,7 +405,8 @@ function RiskBattleSimulator()
       }
    };
 
-   var _maxArmies          = 100;
+   var _nArmiesDefault     = 50;
+   var _nArmiesMax         = 100;
    var _logEntries         = null;
    var _stopLossLimitTitle = 'Retreat when this number of attacking armies remain';
    var _domElements        =

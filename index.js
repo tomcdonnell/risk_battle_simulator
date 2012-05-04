@@ -4,7 +4,7 @@
 *
 * Filename: "index.js"
 *
-* Project: Risk Battle Calculator
+* Project: Risk Battle Simulator
 *
 * Purpose: Start JavaScripts.
 *
@@ -21,7 +21,7 @@ $(document).ready
             var f = 'onReady()';
             UTILS.checkArgs(f, arguments, [Function]);
 
-            window.rbc = new RiskBattleCalculator();
+            window.rbc = new RiskBattleSimulator();
 
             $('body').append(rbc.getDiv());
         }

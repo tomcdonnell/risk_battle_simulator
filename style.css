@@ -4,7 +4,7 @@
 *
 * Filename: "style.css"
 *
-* Project: Risk Battle Calculator
+* Project: Risk Battle Simulator
 *
 * Purpose: Styles
 *
@@ -18,7 +18,7 @@
    margin: 0;
 }
 
-div.riskBattleCalculator
+div.riskBattleSimulator
 {
    border: 1px solid #000;
    width: 300px;

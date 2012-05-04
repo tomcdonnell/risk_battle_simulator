@@ -2,9 +2,9 @@
 *
 * vim: ts=3 sw=3 et wrap co=100 go-=b
 *
-* Filename: "RiskBattleCalculator.js"
+* Filename: "RiskBattleSimulator.js"
 *
-* Project: Risk Battle Calculator
+* Project: Risk Battle Simulator
 *
 * Purpose: Simulate a dice roll battle in the board game Risk.
 *
@@ -15,9 +15,9 @@
 /*
  *
  */
-function RiskBattleCalculator()
+function RiskBattleSimulator()
 {
-   var f = 'RiskBattleCalculator()';
+   var f = 'RiskBattleSimulator()';
    UTILS.checkArgs(f, arguments, []);
 
    // Privileged functions. /////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ function RiskBattleCalculator()
    {
       try
       {
-         var f = 'RiskBattleCalculator._onClickClearForm()';
+         var f = 'RiskBattleSimulator._onClickClearForm()';
          UTILS.checkArgs(f, arguments, [Object]);
 
          var selectors = _inputs.selectors;
@@ -59,7 +59,7 @@ function RiskBattleCalculator()
    {
       try
       {
-         var f = 'RiskBattleCalculator._onChangeNAttackers()';
+         var f = 'RiskBattleSimulator._onChangeNAttackers()';
          UTILS.checkArgs(f, arguments, [Object]);
 
          var nAttackers = $(_inputs.selectors.nAttackers).val();
@@ -83,7 +83,7 @@ function RiskBattleCalculator()
    {
       try
       {
-         var f = 'RiskBattleCalculator._onClickAttack()';
+         var f = 'RiskBattleSimulator._onClickAttack()';
          UTILS.checkArgs(f, arguments, [Object]);
 
          var o = _getSelectedValuesAsObject();
@@ -103,7 +103,7 @@ function RiskBattleCalculator()
    {
       try
       {
-         var f = 'RiskBattleCalculator._onClickAnalyse()';
+         var f = 'RiskBattleSimulator._onClickAnalyse()';
          UTILS.checkArgs(f, arguments, [Object]);
 
          var o             = _getSelectedValuesAsObject();
@@ -122,7 +122,7 @@ function RiskBattleCalculator()
     */
    function _getSelectedValuesAsObject()
    {
-      var f = 'RiskBattleCalculator._getSelectedValuesAsObject()';
+      var f = 'RiskBattleSimulator._getSelectedValuesAsObject()';
       UTILS.checkArgs(f, arguments, []);
 
       var selectors = _inputs.selectors;
@@ -141,7 +141,7 @@ function RiskBattleCalculator()
     */
    function _getProbabilities(nAttackers, nDefenders, minAttackers)
    {
-      var f = 'RiskBattleCalculator._getProbabilities()';
+      var f = 'RiskBattleSimulator._getProbabilities()';
       UTILS.checkArgs(f, arguments, ['positiveInt', 'positiveInt', 'nonNegativeInt']);
    }
 
@@ -150,7 +150,7 @@ function RiskBattleCalculator()
     */
    function _simulateAttack(nAttackers, nDefenders, minAttackers)
    {
-      var f = 'RiskBattleCalculator._simulateAttack()';
+      var f = 'RiskBattleSimulator._simulateAttack()';
       UTILS.checkArgs(f, arguments, ['positiveInt', 'positiveInt', 'nonNegativeInt']);
 
       _logEntries = [];
@@ -204,7 +204,7 @@ function RiskBattleCalculator()
     */
    function _rollDice(nDice)
    {
-      var f = 'RiskBattleCalculator._rollDice()';
+      var f = 'RiskBattleSimulator._rollDice()';
       UTILS.checkArgs(f, arguments, ['positiveInt']);
 
       var diceRollResults = [];
@@ -222,7 +222,7 @@ function RiskBattleCalculator()
     */
    function _printAttackSimulationLogToPage()
    {
-      var f = 'RiskBattleCalculator._printAttackSimulationToPage()';
+      var f = 'RiskBattleSimulator._printAttackSimulationToPage()';
       UTILS.checkArgs(f, arguments, []);
 
       if (_logEntries === null)
@@ -284,7 +284,7 @@ function RiskBattleCalculator()
     */
    function _getSimulationSummaryString()
    {
-      var f = 'RiskBattleCalculator._getSimulationSummaryString()';
+      var f = 'RiskBattleSimulator._getSimulationSummaryString()';
       UTILS.checkArgs(f, arguments, []);
 
       if (_logEntries === null)
@@ -338,7 +338,7 @@ function RiskBattleCalculator()
     */
    function _init()
    {
-      var f = 'RiskBattleCalculator._init()';
+      var f = 'RiskBattleSimulator._init()';
       UTILS.checkArgs(f, arguments, []);
 
       _fillSelectors();
@@ -369,7 +369,7 @@ function RiskBattleCalculator()
     */
    function _fillSelectors()
    {
-      var f = 'RiskBattleCalculator._fillSelectors()';
+      var f = 'RiskBattleSimulator._fillSelectors()';
       UTILS.checkArgs(f, arguments, []);
 
       var selectors              = _inputs.selectors;
@@ -412,8 +412,8 @@ function RiskBattleCalculator()
    {
       divs:
       {
-         main         : DIV({'class': 'riskBattleCalculator'}),
-         battleSummary: DIV({'class': 'battleSummary'       })
+         main         : DIV({'class': 'riskBattleSimulator'}),
+         battleSummary: DIV({'class': 'battleSummary'      })
       },
       ols:
       {
@@ -425,10 +425,10 @@ function RiskBattleCalculator()
          (
             TABLE
             (
-               {'class': 'riskBattleCalculatorForm'},
+               {'class': 'riskBattleSimulatorForm'},
                TBODY
                (
-                  TR(TH({colspan: 3}, H1('Risk Battle Calculator')                        )),
+                  TR(TH({colspan: 3}, H1('Risk Battle Simulator')                         )),
                   TR(TH({colspan: 2}, 'Attacking Armies'), TD(_inputs.selectors.nAttackers)),
                   TR(TH({colspan: 2}, 'Defending Armies'), TD(_inputs.selectors.nDefenders)),
                   TR

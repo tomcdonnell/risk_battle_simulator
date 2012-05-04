@@ -5,7 +5,7 @@
 *
 * Filename: "index.php"
 *
-* Project: Risk Battle Calculator
+* Project: Risk Battle Simulator
 *
 * Purpose: The main file for the project.
 *
@@ -37,12 +37,12 @@ UtilsHtml::echoHtmlScriptAndLinkTagsForJsAndCssFiles
       'lib_tom/js/utils/utils.js'                       ,
       'lib_tom/js/utils/utilsObject.js'                 ,
       'lib_tom/js/utils/utilsValidator.js'              ,
-      'RiskBattleCalculator.js'                         ,
+      'RiskBattleSimulator.js'                          ,
       'index.js'
    )
 );
 ?>
-  <title>Risk Battle Calculator</title>
+  <title>Risk Battle Simulator</title>
  </head>
  <body></body>
 </html>

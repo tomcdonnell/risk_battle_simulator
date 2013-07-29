@@ -15,7 +15,7 @@
 
 // Includes. ///////////////////////////////////////////////////////////////////////////////////////
 
-require_once dirname(__FILE__) . '/lib_tom/php/utils/UtilsHtml.php';
+require_once dirname(__FILE__) . '/../../lib/tom/php/utils/UtilsHtml.php';
 
 // HTML code. //////////////////////////////////////////////////////////////////////////////////////
 ?>
@@ -31,13 +31,13 @@ UtilsHtml::echoHtmlScriptAndLinkTagsForJsAndCssFiles
    ),
    array
    (
-      'lib_tom/js/contrib/jquery/1.5/jquery_minified.js',
-      'lib_tom/js/contrib/utils/DomBuilder.js'          ,
-      'lib_tom/js/utils/NumToWords.js'                  ,
-      'lib_tom/js/utils/utils.js'                       ,
-      'lib_tom/js/utils/utilsObject.js'                 ,
-      'lib_tom/js/utils/utilsValidator.js'              ,
-      'RiskBattleSimulator.js'                          ,
+      '../../lib/tom/js/contrib/jquery/1.7/jquery_minified.js',
+      '../../lib/tom/js/contrib/utils/DomBuilder.js'          ,
+      '../../lib/tom/js/utils/NumToWords.js'                  ,
+      '../../lib/tom/js/utils/utils.js'                       ,
+      '../../lib/tom/js/utils/utilsObject.js'                 ,
+      '../../lib/tom/js/utils/utilsValidator.js'              ,
+      'RiskBattleSimulator.js'                                ,
       'index.js'
    )
 );

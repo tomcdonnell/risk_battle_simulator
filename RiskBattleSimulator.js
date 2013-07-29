@@ -36,7 +36,7 @@ function RiskBattleSimulator()
       try
       {
          var f = 'RiskBattleSimulator._onClickClearForm()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var selectors = _inputs.selectors;
 
@@ -60,7 +60,7 @@ function RiskBattleSimulator()
       try
       {
          var f = 'RiskBattleSimulator._onChangeNAttackers()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var nAttackers = $(_inputs.selectors.nAttackers).val();
          var options    = _inputs.selectors.minAttackers.options;
@@ -84,7 +84,7 @@ function RiskBattleSimulator()
       try
       {
          var f = 'RiskBattleSimulator._onClickAttack()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var o = _getSelectedValuesAsObject();
          _simulateAttack(o.nAttackers, o.nDefenders, o.minAttackers);
@@ -104,7 +104,7 @@ function RiskBattleSimulator()
       try
       {
          var f = 'RiskBattleSimulator._onClickAnalyse()';
-         UTILS.checkArgs(f, arguments, [Object]);
+         UTILS.checkArgs(f, arguments, ['object']);
 
          var o             = _getSelectedValuesAsObject();
          var probabilities = _getProbabilities(o.nAttackers, o.nDefenders, o.minAttackers);

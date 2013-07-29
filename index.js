@@ -19,7 +19,7 @@ $(document).ready
         try
         {
             var f = 'onReady()';
-            UTILS.checkArgs(f, arguments, [Function]);
+            UTILS.checkArgs(f, arguments, ['function']);
 
             window.rbc = new RiskBattleSimulator();
 
